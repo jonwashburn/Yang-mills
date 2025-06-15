@@ -33,7 +33,7 @@ def MOMScale_Λ : Float := 2.27
 -- ========================================================================
 
 -- Detector optimization theorem
-theorem DetectorOptimizationTheorem (Λ m_R I₀ : Float) (hΛ : 0 < Λ) (hm : 0 < m_R) :
+theorem DetectorOptimizationTheoremFloat (Λ m_R I₀ : Float) (hΛ : 0 < Λ) (hm : 0 < m_R) :
   ∃ ρ : Float → Float, ρ = SpectralDensity Λ m_R := by
   exists SpectralDensity Λ m_R
 
@@ -88,7 +88,7 @@ theorem MOMRenormalizationTheorem :
   exists MOMScale_Λ
 
 -- Mass gap existence
-theorem MassGapExistence :
+theorem MassGapExistenceFloat :
   ∃ Δ : Float, Δ > 0 ∧ Δ = MassGap := by
   exists MassGap
   constructor

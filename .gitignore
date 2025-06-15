@@ -79,3 +79,17 @@ venv.bak/
 results/
 logs/
 *.log /.lake
+
+# Lean build artifacts
+.lake/
+*.olean
+*.olean.lock
+*.olean.trace
+*.ilean
+*.c
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/settings.json

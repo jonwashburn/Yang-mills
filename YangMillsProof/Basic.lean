@@ -4,6 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jonathan Washburn, Emma Tully
 -/
 
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Real.Sqrt
+import Mathlib.Tactic
+
 /-!
 # Basic Definitions for Yang-Mills Theory
 
@@ -55,9 +59,9 @@ def YangMillsAction (N : Nat) (g : Float) (A : GaugeField N) : Float :=
 def RecognitionTerm (Λ m_R F_squared : Float) : Float :=
   Epsilon * Λ^4 * (F_squared^(1 + Epsilon/2)) / ((F_squared + m_R^4)^(Epsilon/2))
 
--- Complete quantum action
+-- Complete quantum action with recognition term
 def QuantumYangMillsAction (N : Nat) (g Λ m_R : Float) (A : GaugeField N) : Float :=
-  YangMillsAction N g A + 1.0 -- Simplified
+  YangMillsAction N g A + RecognitionTerm Λ m_R 1.0 -- Simplified
 
 -- Detector spectral density
 def SpectralDensity (Λ m_R ω : Float) : Float :=
@@ -95,4 +99,44 @@ theorem auxiliary_weight_negative_for_large_n (n : Nat) (h : n ≥ 2) :
 -- Spectral density properties
 theorem spectral_density_positive (Λ m_R ω : Float) (hΛ : 0 < Λ) (hm : 0 < m_R) (hω : 0 < ω) :
   0 < SpectralDensity Λ m_R ω := by
+  sorry
+
+/-!
+## ℝ Versions (for formal proofs)
+We keep the existing `Float` definitions used by high-level skeletons, but we now
+introduce parallel constants in `ℝ`, together with elementary arithmetic
+facts.  These are used for rigorous proofs downstream while we gradually migrate
+the entire development from `Float` to `ℝ`.
+-/
+
+open Real
+
+/-- The golden ratio φ in ℝ. -/
+noncomputable def GoldenRatioℝ : ℝ := (1 + Real.sqrt 5) / 2
+
+/-- ε := φ − 1 (in ℝ). -/
+noncomputable def Epsilonℝ : ℝ := GoldenRatioℝ - 1
+
+lemma golden_ratio_property_ℝ : GoldenRatioℝ ^ 2 = GoldenRatioℝ + 1 := by
+  unfold GoldenRatioℝ
+  field_simp [pow_two]
+  ring_nf
+  rw [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)]
+  ring
+
+lemma epsilon_property_ℝ : Epsilonℝ ^ 2 + Epsilonℝ - 1 = (0 : ℝ) := by
+  have hφ : GoldenRatioℝ ^ 2 = GoldenRatioℝ + 1 := golden_ratio_property_ℝ
+  unfold Epsilonℝ
+  have : (GoldenRatioℝ - 1) ^ 2 + (GoldenRatioℝ - 1) - 1 = 0 := by
+    have h : (GoldenRatioℝ - 1) ^ 2 = GoldenRatioℝ ^ 2 - 2 * GoldenRatioℝ + 1 := by ring
+    rw [h, hφ]
+    ring
+  exact this
+
+lemma epsilon_positive_ℝ : (0 : ℝ) < Epsilonℝ := by
+  -- Proof requires careful handling of sqrt inequalities
+  sorry
+
+lemma epsilon_lt_one_ℝ : Epsilonℝ < 1 := by
+  -- Proof requires careful handling of sqrt inequalities
   sorry

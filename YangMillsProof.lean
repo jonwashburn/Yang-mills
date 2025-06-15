@@ -1,6 +1,5 @@
 -- This module serves as the root of the `YangMillsProof` library.
 -- Import modules here that should be built as part of the library.
-import YangMillsProof.Basic
 
 /-
 Copyright (c) 2025 Jonathan Washburn and Emma Tully. All rights reserved.
@@ -9,7 +8,9 @@ Authors: Jonathan Washburn, Emma Tully
 -/
 
 -- Import working modules
+import YangMillsProof.Basic
 import YangMillsProof.DetectorModel
+import YangMillsProof.MassGap
 import YangMillsProof.Complete
 
 /-!
@@ -43,6 +44,7 @@ The working formalization includes:
 
 - `YangMillsProof.Basic`: Basic definitions and notation
 - `YangMillsProof.DetectorModel`: Detector-field coupling and optimization
+- `YangMillsProof.MassGap`: Mass gap computation and clustering
 - `YangMillsProof.Complete`: Complete formalization of all main theorems
 
 ## Main Theorem
