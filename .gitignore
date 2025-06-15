@@ -78,4 +78,4 @@ venv.bak/
 # Project specific
 results/
 logs/
-*.log 
+*.log /.lake
